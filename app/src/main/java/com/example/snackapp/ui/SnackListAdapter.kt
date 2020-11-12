@@ -4,9 +4,6 @@ import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.Filter
-import android.widget.Filterable
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.snackapp.R
 import com.example.snackapp.inflate
@@ -18,6 +15,8 @@ class SnackListAdapter(private val snackList: List<SnackItem>, private val liste
 
     private var filteredSnackList = mutableListOf<SnackItem>()
     private var filtering = false
+
+    //Region
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(inflate(parent.context, R.layout.item_snack_recycler_view, parent, false))
@@ -43,6 +42,10 @@ class SnackListAdapter(private val snackList: List<SnackItem>, private val liste
         return snackList.toMutableList() as ArrayList<SnackItem>
     }
 
+    /**
+     * This function filters the list of snacks based on whether
+     * or not they are a Veggie option.
+     */
     fun filterIsVeg(isVeg: Boolean, notVeg: Boolean) {
         filteredSnackList.clear()
         if(isVeg && notVeg) {

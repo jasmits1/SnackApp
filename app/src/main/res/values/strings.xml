@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">SnackApp</string>
+
+    <!-- activity_snack Strings -->
+    <string name="veggie_filter_text">Veggie</string>
+    <string name="non_veggie_filter_text">Non-Veggie</string>
+    <string name="new_item_button_text">Add Item</string>
+    <string name="submit_button_text">Submit</string>
+
+    <!-- add_item_dialog Strings -->
+    <string name="new_item_text_hint">Name</string>
+    <string name="veggie_toggle_on_text">Veggie</string>
+    <string name="veggie_toggle_off_text">Non-Veggie</string>
 </resources>

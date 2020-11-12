@@ -9,14 +9,15 @@
         android:id="@+id/new_item_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name"/>
+        android:hint="@string/new_item_text_hint"
+        android:inputType="text"/>
 
     <ToggleButton
         android:id="@+id/veggie_toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textOn="Veggie"
-        android:textOff="Non-Veggie"/>
+        android:textOn="@string/veggie_toggle_on_text"
+        android:textOff="@string/veggie_toggle_off_text"/>
 
 
 </LinearLayout>

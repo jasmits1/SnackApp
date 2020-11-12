@@ -1,7 +1,5 @@
 package com.example.snackapp.model
 
-import kotlin.time.milliseconds
-
 /**
  * The SnackRepository class's job is to manage how data is transferred to and
  * from the local database and remote data-store depending on predefined conditions

@@ -1,13 +1,12 @@
 package com.example.snackapp.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ToggleButton
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.snackapp.R
 import com.example.snackapp.model.SnackItem
@@ -31,7 +30,7 @@ class SnackActivity : AppCompatActivity(), SnackActivityView {
         snackPresenter = SnackPresenter(this, SnackRepository())
         recyclerView = findViewById(R.id.recyclerView)
         addButton = findViewById(R.id.new_item_button)
-        submitButton = findViewById(R.id.submitButton)
+        submitButton = findViewById(R.id.submit_button)
         vegCheckBox = findViewById(R.id.veggie_filter)
         notVegCheckBox = findViewById(R.id.non_veggie_filter)
 
@@ -41,7 +40,7 @@ class SnackActivity : AppCompatActivity(), SnackActivityView {
         vegCheckBox.setOnClickListener(this::filterCheckListener)
         notVegCheckBox.setOnClickListener(this::filterCheckListener)
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             val list = savedInstanceState.getParcelableArrayList<SnackItem>(STATE_LIST) as List<SnackItem>
             snackPresenter.updateSnackList(list)
         }
@@ -58,7 +57,7 @@ class SnackActivity : AppCompatActivity(), SnackActivityView {
     }
 
     override fun setSnackList(snackList: List<SnackItem>) {
-        if(recyclerView.adapter == null) {
+        if (recyclerView.adapter == null) {
             recyclerView.adapter = SnackListAdapter(snackList) { i: SnackItem, b: Boolean ->
                 snackPresenter.onCheckStatusChanged(i, b)
             }
@@ -68,7 +67,7 @@ class SnackActivity : AppCompatActivity(), SnackActivityView {
     }
 
     private fun filterCheckListener(view: View) {
-        var adapter = recyclerView.adapter as SnackListAdapter
+        val adapter = recyclerView.adapter as SnackListAdapter
         adapter.filterIsVeg(vegCheckBox.isChecked, notVegCheckBox.isChecked)
         snackPresenter.getSnackList()
     }
@@ -76,16 +75,16 @@ class SnackActivity : AppCompatActivity(), SnackActivityView {
     private fun addNewItemClickListener(view: View) {
         val customLayout: View = layoutInflater.inflate(R.layout.add_item_dialog, null)
         MaterialAlertDialogBuilder(this)
-            .setTitle("New Snack")
-            .setView(customLayout)
-            .setPositiveButton("Save") { dialog, which ->
-                val newSnack = SnackItem(
-                    customLayout.findViewById<EditText>(R.id.new_item_text).text.toString(),
-                    customLayout.findViewById<ToggleButton>(R.id.veggie_toggle).isChecked)
-                snackPresenter.addNewSnack(newSnack)
-
-            }
-            .show()
+                .setTitle("New Snack")
+                .setView(customLayout)
+                .setPositiveButton("Save") { dialog, which ->
+                    val newSnack = SnackItem(
+                            customLayout.findViewById<EditText>(R.id.new_item_text).text.toString(),
+                            customLayout.findViewById<ToggleButton>(R.id.veggie_toggle).isChecked)
+                    snackPresenter.addNewSnack(newSnack)
+                }
+                .setNegativeButton("Cancel") {dialog, which -> }
+                .show()
     }
 
     private fun submitClickListener(view: View) {
@@ -98,12 +97,12 @@ class SnackActivity : AppCompatActivity(), SnackActivityView {
 
 
         MaterialAlertDialogBuilder(this)
-            .setTitle("Order Summary")
-            .setMessage(orderSummary)
-            .setNeutralButton("Dismiss") { dialog, which ->
-                snackPresenter.submitOrder(order)
-            }
-            .show()
+                .setTitle("Order Summary")
+                .setMessage(orderSummary)
+                .setNeutralButton("Dismiss") { dialog, which ->
+                    snackPresenter.submitOrder(order)
+                }
+                .show()
     }
 
 }

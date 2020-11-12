@@ -16,10 +16,8 @@ class SnackPresenter(
 ) {
 
     /**
-     * Retrieves the current list of snacks from the repository.
-     *
-     * This method is setup to be async-friendly, although as we lack
-     * a database or API there was nothing to actually do asynchronously.
+     * Retrieves the current list of snacks from the repository, and by
+     * extension the database or network if available.
      */
     fun getSnackList() {
         snackActivityView?.setSnackList(snackRepository.getSnackList())
