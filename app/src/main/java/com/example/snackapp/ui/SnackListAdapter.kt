@@ -39,6 +39,10 @@ class SnackListAdapter(private val snackList: List<SnackItem>, private val liste
         }
     }
 
+     fun getSnackList(): ArrayList<SnackItem> {
+        return snackList.toMutableList() as ArrayList<SnackItem>
+    }
+
     fun filterIsVeg(isVeg: Boolean, notVeg: Boolean) {
         filteredSnackList.clear()
         if(isVeg && notVeg) {

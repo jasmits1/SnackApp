@@ -15,7 +15,7 @@ class SnackRepository {
 
     // List of available snack items, pre-populated with the default list.
     // Ordinarily, this data would be retrieved from the database or remote server.
-    private val snackList = mutableListOf<SnackItem>()
+    private var snackList = mutableListOf<SnackItem>()
 
     /**
      * Retrieves the current list of snacks.
@@ -28,6 +28,11 @@ class SnackRepository {
             generateSnackList()
         }
         return snackList
+    }
+
+    fun setSnackList(list: List<SnackItem>) {
+        snackList.clear()
+        snackList = list as MutableList<SnackItem>
     }
 
     /**

@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.ToggleButton
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.snackapp.R
 import com.example.snackapp.model.SnackItem
@@ -13,6 +16,7 @@ import com.example.snackapp.presenter.SnackPresenter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SnackActivity : AppCompatActivity(), SnackActivityView {
+    private final val STATE_LIST = "State Adapter Data"
     private lateinit var snackPresenter: SnackPresenter
     private lateinit var recyclerView: RecyclerView
     private lateinit var submitButton: Button
@@ -22,6 +26,7 @@ class SnackActivity : AppCompatActivity(), SnackActivityView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_snack)
         snackPresenter = SnackPresenter(this, SnackRepository())
         recyclerView = findViewById(R.id.recyclerView)
@@ -36,11 +41,20 @@ class SnackActivity : AppCompatActivity(), SnackActivityView {
         vegCheckBox.setOnClickListener(this::filterCheckListener)
         notVegCheckBox.setOnClickListener(this::filterCheckListener)
 
+        if(savedInstanceState != null) {
+            val list = savedInstanceState.getParcelableArrayList<SnackItem>(STATE_LIST) as List<SnackItem>
+            snackPresenter.updateSnackList(list)
+        }
     }
 
     override fun onResume() {
         super.onResume()
         snackPresenter.getSnackList()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(STATE_LIST, (recyclerView.adapter as SnackListAdapter).getSnackList())
     }
 
     override fun setSnackList(snackList: List<SnackItem>) {
@@ -60,7 +74,18 @@ class SnackActivity : AppCompatActivity(), SnackActivityView {
     }
 
     private fun addNewItemClickListener(view: View) {
+        val customLayout: View = layoutInflater.inflate(R.layout.add_item_dialog, null)
+        MaterialAlertDialogBuilder(this)
+            .setTitle("New Snack")
+            .setView(customLayout)
+            .setPositiveButton("Save") { dialog, which ->
+                val newSnack = SnackItem(
+                    customLayout.findViewById<EditText>(R.id.new_item_text).text.toString(),
+                    customLayout.findViewById<ToggleButton>(R.id.veggie_toggle).isChecked)
+                snackPresenter.addNewSnack(newSnack)
 
+            }
+            .show()
     }
 
     private fun submitClickListener(view: View) {
@@ -79,11 +104,6 @@ class SnackActivity : AppCompatActivity(), SnackActivityView {
                 snackPresenter.submitOrder(order)
             }
             .show()
-    }
-
-    fun testAddItem() {
-        val newSnack = SnackItem("Sausage", isVeg = false)
-        snackPresenter.addNewSnack(newSnack)
     }
 
 }

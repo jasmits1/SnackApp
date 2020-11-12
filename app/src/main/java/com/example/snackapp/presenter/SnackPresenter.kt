@@ -39,6 +39,10 @@ class SnackPresenter(
         getSnackList()
     }
 
+    fun updateSnackList(list: List<SnackItem>) {
+        snackRepository.setSnackList(list)
+    }
+
     fun onCheckStatusChanged(snackItem: SnackItem, isChecked: Boolean) {
         snackRepository.updateCheckStatus(snackItem, isChecked)
     }
